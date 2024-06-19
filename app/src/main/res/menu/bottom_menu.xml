@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/action_home"
+        android:title="Home"
+        android:icon="@drawable/baseline_home_24"></item>
+    <item
+        android:id="@+id/action_analytics"
+        android:title="Analytics"
+        android:icon="@drawable/analytics_24px"></item>
+    <item
+        android:id="@+id/action_options"
+        android:title="Options"
+        android:icon="@drawable/tune_24px"></item>
+    <item
+        android:id="@+id/action_more"
+        android:title="More.."
+        android:icon="@drawable/more_vert_24px"></item>
+
+
+</menu>
