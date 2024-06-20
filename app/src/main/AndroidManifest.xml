@@ -17,7 +17,11 @@
             android:exported="false" >
         </activity>
         <activity android:name=".AddExpenseActivity"
-            android:exported="false"></activity>
+            android:exported="false"/>
+        <activity android:name=".ExpenseDetailsActivity"
+            android:exported="false"/>
+        <activity android:name=".UpdateExpenseActivity"
+            android:exported="false"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">

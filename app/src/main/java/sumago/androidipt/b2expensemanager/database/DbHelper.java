@@ -2,11 +2,14 @@ package sumago.androidipt.b2expensemanager.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
 
 import sumago.androidipt.b2expensemanager.models.Expense;
 
@@ -21,13 +24,14 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String COLUMN_IS_DELETED = "is_deleted";
     // Category Table Columns
     private static final String COLUMN_CATEGORY_ID = "id";
-    private static final String COLUMN_CATEGORY_NAME = "category_name";
+    private static final String COLUMN_CATEGORY_NAME = "categoryName";
     // Expense Table Columns
     private static final String COLUMN_EXPENSE_ID = "id";
     private static final String COLUMN_EXPENSE_NAME = "name";
     private static final String COLUMN_EXPENSE_DATE = "date";
     private static final String COLUMN_EXPENSE_AMOUNT = "amount";
     private static final String COLUMN_EXPENSE_CATEGORY_ID = "categoryId";
+    private static final String COLUMN_EXPENSE_NOTE = "note";
     private static final String COLUMN_EXPENSE_CATEGORY_NAME = "categoryName";
 
 
@@ -46,6 +50,7 @@ public class DbHelper extends SQLiteOpenHelper {
             + COLUMN_EXPENSE_AMOUNT + " REAL NOT NULL, "
             + COLUMN_EXPENSE_CATEGORY_ID + " INTEGER, "
             + COLUMN_EXPENSE_CATEGORY_NAME + " TEXT NOT NULL, "
+            + COLUMN_EXPENSE_NOTE + " TEXT NOT NULL, "
             + COLUMN_IS_DELETED + " INTEGER DEFAULT 0"
             + ");";
     public DbHelper(@Nullable Context context) {
@@ -75,8 +80,42 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(COLUMN_EXPENSE_NAME,expense.getName());
         values.put(COLUMN_EXPENSE_CATEGORY_ID,expense.getCategoryId());
         values.put(COLUMN_EXPENSE_AMOUNT,expense.getAmount());
+        values.put(COLUMN_EXPENSE_NOTE,expense.getNote());
         values.put(COLUMN_EXPENSE_DATE,expense.getDate());
         long id=database.insert(TABLE_EXPENSE,null,values);
         return id;
+    }
+
+    public ArrayList<Expense> getAllExpenses(){
+        ArrayList<Expense> list=new ArrayList<>();
+        SQLiteDatabase database=getReadableDatabase();
+        Cursor cursor=database.rawQuery("SELECT * FROM "+TABLE_EXPENSE,null);
+        if(cursor.moveToFirst())
+        {
+            do{
+                Expense expense=new Expense();
+                expense.setName(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_EXPENSE_NAME)));
+                expense.setId(cursor.getInt(0));
+                expense.setAmount(cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_EXPENSE_AMOUNT)));
+                expense.setCategoryName(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CATEGORY_NAME)));
+                expense.setCategoryId(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_EXPENSE_CATEGORY_ID)));
+                expense.setNote(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_EXPENSE_NOTE)));
+                list.add(expense);
+
+            }while (cursor.moveToNext());
+
+        }
+        return list;
+    }
+
+    public double getSum(){
+        SQLiteDatabase database=getReadableDatabase();
+        double sum=0d;
+        Cursor cursor=database.rawQuery("SELECT SUM(amount) FROM expense",null);
+        if(cursor.moveToFirst())
+        {
+            sum=cursor.getDouble(0);
+        }
+        return sum;
     }
 }

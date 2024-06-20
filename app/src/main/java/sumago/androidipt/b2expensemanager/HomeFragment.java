@@ -1,15 +1,26 @@
 package sumago.androidipt.b2expensemanager;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+
+import sumago.androidipt.b2expensemanager.adapters.ExpenseListAdapter;
+import sumago.androidipt.b2expensemanager.database.DbHelper;
+import sumago.androidipt.b2expensemanager.models.Expense;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +39,10 @@ public class HomeFragment extends Fragment {
     private String mParam2;
 
     Button btnClick;
+    DbHelper dbHelper;
+    RecyclerView recyclerView;
+    TextView tvSum;
+    ExpenseListAdapter expenseListAdapter;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -70,13 +85,17 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        btnClick=view.findViewById(R.id.btnClick);
-        btnClick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        dbHelper=new DbHelper(getActivity());
+        recyclerView=view.findViewById(R.id.recyclerView);
+        tvSum=view.findViewById(R.id.tvSum);
+        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false);
+        recyclerView.setLayoutManager(layoutManager);
+        ArrayList<Expense> list=dbHelper.getAllExpenses();
+        tvSum.setText(""+dbHelper.getSum());
+        expenseListAdapter=new ExpenseListAdapter(list);
+        Log.d("mytag",""+dbHelper.getAllExpenses().size());
+        recyclerView.setAdapter(expenseListAdapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
 
-                Toast.makeText(getActivity(), "Fragment Button Click", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }

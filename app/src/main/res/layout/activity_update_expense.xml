@@ -17,7 +17,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="24dp"
-            android:text="Add Expense"
+            android:text="Update Expense"
             android:textColor="#673AB7"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -103,10 +103,10 @@
             app:singleSelection="true" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnAdd"
+            android:id="@+id/btnUpdate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Add" />
+            android:text="Update" />
     </LinearLayout>
 </ScrollView>

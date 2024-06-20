@@ -1,33 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
+    <!-- FrameLayout for fragment container -->
     <FrameLayout
         android:layout_above="@id/bottomNavigationView"
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
+        android:layout_height="match_parent"
+        android:layout_gravity="start">
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAdd"
+            app:elevation="10dp"
+            android:layout_gravity="right|bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
             android:src="@android:drawable/ic_input_add"
-            android:id="@+id/fabAdd"/>
+            app:fabSize="normal"
+            android:tint="@android:color/white"/>
+        />
     </FrameLayout>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView"
-        android:layout_width="match_parent"
-        app:menu="@menu/bottom_menu"
-        android:layout_alignParentBottom="true"
-        android:layout_height="wrap_content"/>
+
+
+    <!-- BottomAppBar with BottomNavigationView -->
+
+
+        <!-- BottomNavigationView inside BottomAppBar -->
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:layout_alignParentBottom="true"
+            android:id="@+id/bottomNavigationView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            app:menu="@menu/bottom_menu"
+            app:labelVisibilityMode="labeled"/>
+
+
+    <!-- FloatingActionButton anchored to BottomAppBar -->
+
+
 </RelativeLayout>
