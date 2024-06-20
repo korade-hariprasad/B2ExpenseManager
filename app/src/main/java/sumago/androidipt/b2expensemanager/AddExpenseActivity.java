@@ -18,13 +18,16 @@ import sumago.androidipt.b2expensemanager.models.Expense;
 
 
 public class AddExpenseActivity extends AppCompatActivity {
+    ChipGroup chipGroup;
+
     TextInputLayout txLayoutExpenseName;
     TextInputLayout txLayoutAmount;
     TextInputEditText etName;
     TextInputEditText etAmount;
     TextInputEditText etDate;
-    TextInputEditText etNotes;;
+    TextInputEditText etNotes;
     Button btnAdd;
+
     DbHelper dbHelper;
 
     @Override
@@ -39,28 +42,24 @@ public class AddExpenseActivity extends AppCompatActivity {
         txLayoutExpenseName=findViewById(R.id.txExpenseNameLayout);
         txLayoutAmount=findViewById(R.id.txAmountLayout);
         dbHelper=new DbHelper(this);
+
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if(validateFields())
                 {
-                    String name=etName.getText().toString().trim();
+                    String name=etName.getText().toString();
                     double amount=Double.parseDouble(etAmount.getText().toString());
-                    String note=etNotes.getText().toString().trim();
-                    String date=etDate.getText().toString().trim();
+                    String note=etNotes.getText().toString();
+                    String date=etDate.getText().toString();
                     String catName="Default";
                     int catId=1;
-                    long id=dbHelper.insertExpense(new Expense(name,catName,"2024-20-06",amount,note,catId));
+                    long id=dbHelper.insertExpense(new Expense(name,catName,date,amount,catId,note));
                     Log.d("mytag",""+id);
                 }
             }
         });
-
-
-
-
-
     }
 
     private boolean validateFields() {

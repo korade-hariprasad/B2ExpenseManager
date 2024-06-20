@@ -17,7 +17,7 @@
             android:text="T"
             android:textStyle="bold"
             android:textSize="24dp"
-            android:src="@drawable/ic_launcher_foreground"
+            android:src="@drawable/currency_rupee_circle_24px"
             android:gravity="center"
             android:textColor="@color/white"
             android:layout_width="50dp"
@@ -28,7 +28,6 @@
             android:layout_marginLeft="24dp"
             android:text="T"
             android:textSize="24dp"
-            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"></TextView>
     </LinearLayout>

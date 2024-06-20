@@ -34,25 +34,21 @@ public class ExpenseDetailsActivity extends AppCompatActivity {
         cardEdit=findViewById(R.id.cardEdit);
         dbHelper=new DbHelper(this);
         expenseId=getIntent().getIntExtra("id",0);
-       // setDetails(new Expense());
+        // setDetails(new Expense());
         cardDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
-
         cardEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent=new Intent(ExpenseDetailsActivity.this, ExpenseDetailsActivity.class);
+                Intent intent=new Intent(ExpenseDetailsActivity.this, UpdateExpenseActivity.class);
                 intent.putExtra("id",expenseId);
                 startActivity(intent);
             }
         });
-
-
     }
 
     private void setDetails(Expense expense) {

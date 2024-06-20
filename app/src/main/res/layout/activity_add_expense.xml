@@ -1,112 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddExpenseActivity">
-    <LinearLayout
+    tools:context=".MainActivity">
+    <!-- FrameLayout for fragment container -->
+    <FrameLayout
+        android:layout_above="@id/bottomNavigationView"
+        android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="24dp"
-            android:text="Add Expense"
-            android:textColor="#673AB7"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txExpenseNameLayout"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_gravity="start">
+        />
+    </FrameLayout>
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:fabAlignmentMode="center"
+        android:id="@+id/bottomAppBar">
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:layout_alignParentBottom="true"
+            android:id="@+id/bottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="Expense Name">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/title_24px" />
-        </com.google.android.material.textfield.TextInputLayout>
+            android:background="@android:color/transparent"
+            app:menu="@menu/bottom_menu"
+            app:labelVisibilityMode="labeled"/>
+    </com.google.android.material.bottomappbar.BottomAppBar>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txAmountLayout"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:hint="Amount">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etAmount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/currency_rupee_24px"
-                    android:inputType="number"
-                    android:maxLength="10" />
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txDateLayout"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:hint="Date">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/calendar_month_24px"
-                    android:inputType="none"
-                    android:enabled="false"
-                    android:text="2024-06-20"
-                    android:maxLength="10" />
-            </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txNotesLayout"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:hint="Note ( Optional )">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etNote"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lines="4"
-                android:layout_gravity="start"
-                android:gravity="start" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipGroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:orientation="vertical"
-            app:selectionRequired="true"
-            app:singleSelection="true" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnAdd"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Add" />
-    </LinearLayout>
-</ScrollView>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAdd"
+        app:layout_anchor="@id/bottomAppBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:src="@android:drawable/ic_input_add"
+        app:fabSize="auto"
+        android:tint="@android:color/white"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

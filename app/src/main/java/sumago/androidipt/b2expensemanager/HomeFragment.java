@@ -86,8 +86,8 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         dbHelper=new DbHelper(getActivity());
-        recyclerView=view.findViewById(R.id.recyclerView);
-        tvSum=view.findViewById(R.id.tvSum);
+        recyclerView=view.findViewById(R.id.recyclerViewExpenseList);
+        tvSum=view.findViewById(R.id.tvTotal);
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
         ArrayList<Expense> list=dbHelper.getAllExpenses();
