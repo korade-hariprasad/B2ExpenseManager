@@ -15,6 +15,7 @@ import sumago.androidipt.b2expensemanager.models.Expense;
 public class ExpenseDetailsActivity extends AppCompatActivity {
 
     TextView tvName;
+    TextView tvNote;
     TextView tvDate;
     TextView tvCategory;
     TextView tvAmount;
@@ -30,15 +31,22 @@ public class ExpenseDetailsActivity extends AppCompatActivity {
         tvName=findViewById(R.id.tvName);
         tvCategory=findViewById(R.id.tvCategory);
         tvDate=findViewById(R.id.tvDate);
+        tvNote=findViewById(R.id.tvNote);
         cardDelete=findViewById(R.id.cardDelete);
         cardEdit=findViewById(R.id.cardEdit);
         dbHelper=new DbHelper(this);
         expenseId=getIntent().getIntExtra("id",0);
-        // setDetails(new Expense());
+        Expense expense=dbHelper.getExpenseById(expenseId);
+        setDetails(expense);
         cardDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                int count=dbHelper.deleteExpenseById(expenseId);
+                if(count>0)
+                {
+                    finish();
+                }
             }
         });
         cardEdit.setOnClickListener(new View.OnClickListener() {
@@ -56,5 +64,6 @@ public class ExpenseDetailsActivity extends AppCompatActivity {
         tvName.setText(expense.getName());
         tvCategory.setText(expense.getCategoryName());
         tvAmount.setText(""+expense.getAmount());
+        tvNote.setText(""+expense.getNote());
     }
 }

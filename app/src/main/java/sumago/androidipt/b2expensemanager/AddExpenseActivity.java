@@ -56,6 +56,11 @@ public class AddExpenseActivity extends AppCompatActivity {
                     String catName="Default";
                     int catId=1;
                     long id=dbHelper.insertExpense(new Expense(name,catName,date,amount,note,catId));
+
+                    if(id>0)
+                    {
+                        finish();
+                    }
                     Log.d("mytag",""+id);
                 }
             }

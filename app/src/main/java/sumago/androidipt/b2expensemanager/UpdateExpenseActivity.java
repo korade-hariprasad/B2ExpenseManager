@@ -1,5 +1,6 @@
 package sumago.androidipt.b2expensemanager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,8 @@ public class UpdateExpenseActivity extends AppCompatActivity {
     TextInputEditText etNotes;
     Button btnUpdate;
     DbHelper dbHelper;
+    int expenseId=0;
+    Expense expense;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +39,9 @@ public class UpdateExpenseActivity extends AppCompatActivity {
         txLayoutExpenseName=findViewById(R.id.txExpenseNameLayout);
         txLayoutAmount=findViewById(R.id.txAmountLayout);
         dbHelper=new DbHelper(this);
-        setDetails(new Expense());
+        expenseId=getIntent().getIntExtra("id",0);
+         expense=dbHelper.getExpenseById(expenseId);
+        setDetails(expense);
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,8 +51,15 @@ public class UpdateExpenseActivity extends AppCompatActivity {
                     double amount=Double.parseDouble(etAmount.getText().toString());
                     String note=etNotes.getText().toString();
                     String date=etDate.getText().toString();
-                    String catName="Default";
-                    int catId=1;
+                    String catName=expense.getCategoryName();
+                    int catId=expense.getCategoryId();
+                    int count=dbHelper.updateExpense(new Expense(expenseId,name,catName,date,amount,note,catId));
+                    if(count>0)
+                    {
+                        Intent intent=new Intent(UpdateExpenseActivity.this,MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
                 }
             }
         });

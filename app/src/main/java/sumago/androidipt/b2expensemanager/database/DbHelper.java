@@ -107,7 +107,6 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         return list;
     }
-
     public double getSum(){
         SQLiteDatabase database=getReadableDatabase();
         double sum=0d;
@@ -117,5 +116,51 @@ public class DbHelper extends SQLiteOpenHelper {
             sum=cursor.getDouble(0);
         }
         return sum;
+    }
+
+    public Expense getExpenseById(int id)
+    {
+        Expense expense=new Expense();
+        SQLiteDatabase database=getReadableDatabase();
+        String[] selectionArgs=new String[]{String.valueOf(id)};
+        Cursor cursor=database.rawQuery("SELECT * FROM "+TABLE_EXPENSE+" WHERE "+COLUMN_EXPENSE_ID+"=?",selectionArgs);
+        if(cursor!=null)
+        {
+            if(cursor.moveToFirst())
+            {
+
+                expense.setName(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_EXPENSE_NAME)));
+                expense.setId(cursor.getInt(0));
+                expense.setAmount(cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_EXPENSE_AMOUNT)));
+                expense.setCategoryName(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CATEGORY_NAME)));
+                expense.setCategoryId(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_EXPENSE_CATEGORY_ID)));
+                expense.setNote(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_EXPENSE_NOTE)));
+                expense.setDate(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_EXPENSE_DATE)));
+            }
+        }
+
+        return expense;
+    }
+
+    public int deleteExpenseById(int id)
+    {
+        SQLiteDatabase database=getWritableDatabase();
+        String[] selectionArgs=new String[]{String.valueOf(id)};
+        int count=database.delete(TABLE_EXPENSE,COLUMN_EXPENSE_ID+"=?",selectionArgs);
+        return count;
+    }
+
+    public int updateExpense(Expense expense){
+        SQLiteDatabase database=getWritableDatabase();
+        ContentValues values=new ContentValues();
+        String[] selectionArgs=new String[]{String.valueOf(expense.getId())};
+        values.put(COLUMN_EXPENSE_CATEGORY_NAME,expense.getCategoryName());
+        values.put(COLUMN_EXPENSE_NAME,expense.getName());
+        values.put(COLUMN_EXPENSE_CATEGORY_ID,expense.getCategoryId());
+        values.put(COLUMN_EXPENSE_AMOUNT,expense.getAmount());
+        values.put(COLUMN_EXPENSE_NOTE,expense.getNote());
+        values.put(COLUMN_EXPENSE_DATE,expense.getDate());
+        int count=database.update(TABLE_EXPENSE,values,COLUMN_EXPENSE_ID+"=?",selectionArgs);
+        return count;
     }
 }

@@ -1,5 +1,6 @@
 package sumago.androidipt.b2expensemanager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 
 import sumago.androidipt.b2expensemanager.adapters.ExpenseListAdapter;
 import sumago.androidipt.b2expensemanager.database.DbHelper;
+import sumago.androidipt.b2expensemanager.interfaces.OnListItemClickListener;
 import sumago.androidipt.b2expensemanager.models.Expense;
 
 /**
@@ -27,7 +29,7 @@ import sumago.androidipt.b2expensemanager.models.Expense;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements OnListItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -90,12 +92,24 @@ public class HomeFragment extends Fragment {
         tvSum=view.findViewById(R.id.tvTotal);
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+    }
+
+
+    @Override
+    public void onListItemClick(Expense expense) {
+        Intent intent=new Intent(getActivity(),ExpenseDetailsActivity.class);
+        intent.putExtra("id",expense.getId());
+        startActivity(intent);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         ArrayList<Expense> list=dbHelper.getAllExpenses();
         tvSum.setText(""+dbHelper.getSum());
-        expenseListAdapter=new ExpenseListAdapter(list);
+        expenseListAdapter=new ExpenseListAdapter(list,HomeFragment.this);
         Log.d("mytag",""+dbHelper.getAllExpenses().size());
         recyclerView.setAdapter(expenseListAdapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
-
     }
 }

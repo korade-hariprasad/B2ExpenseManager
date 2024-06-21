@@ -70,6 +70,16 @@ public class Expense {
         this.categoryId = categoryId;
         this.note=note;
     }
+    public Expense(int id,String name, String categoryName, String date, double amount, String note,int categoryId) {
+
+        this.name = name;
+        this.categoryName = categoryName;
+        this.date = date;
+        this.amount = amount;
+        this.categoryId = categoryId;
+        this.note=note;
+        this.id=id;
+    }
 
     public String getNote() {
         return note;
