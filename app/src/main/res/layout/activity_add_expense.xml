@@ -35,7 +35,7 @@
                 android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                />
+                 />
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
@@ -97,7 +97,6 @@
                 android:layout_gravity="start"
                 android:gravity="start" />
         </com.google.android.material.textfield.TextInputLayout>
-
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipGroup"
             android:layout_width="match_parent"

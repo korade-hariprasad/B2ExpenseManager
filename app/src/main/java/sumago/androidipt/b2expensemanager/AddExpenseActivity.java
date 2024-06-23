@@ -14,12 +14,12 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.ArrayList;
 
 import sumago.androidipt.b2expensemanager.database.DbHelper;
+import sumago.androidipt.b2expensemanager.models.Category;
 import sumago.androidipt.b2expensemanager.models.Expense;
 
 
 public class AddExpenseActivity extends AppCompatActivity {
     ChipGroup chipGroup;
-
     TextInputLayout txLayoutExpenseName;
     TextInputLayout txLayoutAmount;
     TextInputEditText etName;
@@ -29,6 +29,7 @@ public class AddExpenseActivity extends AppCompatActivity {
     Button btnAdd;
 
     DbHelper dbHelper;
+    ArrayList<Category> categoryArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,23 +69,20 @@ public class AddExpenseActivity extends AppCompatActivity {
     }
 
     private boolean validateFields() {
-        ArrayList<Boolean> errors=new ArrayList<>();
+        ArrayList<Boolean> errors = new ArrayList<>();
 
-        if(!etName.getText().toString().isEmpty() && etName.getText().toString().length()>1)
-        {
+        if (!etName.getText().toString().isEmpty() && etName.getText().toString().length() > 1) {
             errors.add(true);
-            etName.setError(null);
-        }else
-        {
-            etName.setError("Please enter a valid name");
+            txLayoutExpenseName.setError(null);
+        } else {
+            txLayoutExpenseName.setError("Please enter a valid name");
             errors.add(false);
         }
-        if(!etAmount.getText().toString().isEmpty() && etAmount.getText().toString().length()>0)
-        {
+        if (!etAmount.getText().toString().isEmpty() && etAmount.getText().toString().length() > 0) {
             errors.add(true);
-            etAmount.setError(null);
-        }else{
-            etAmount.setError("Please enter a valid amount");
+            txLayoutAmount.setError(null);
+        } else {
+            txLayoutAmount.setError("Please enter a valid amount");
             errors.add(false);
         }
         return !errors.contains(false);

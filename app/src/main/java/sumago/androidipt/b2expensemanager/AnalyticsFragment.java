@@ -4,8 +4,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import sumago.androidipt.b2expensemanager.adapters.AnalyticsAdapter;
+import sumago.androidipt.b2expensemanager.database.DbHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,6 +30,10 @@ public class AnalyticsFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    DbHelper dbHelper;
+    RecyclerView recyclerViewAnalytics;
+    AnalyticsAdapter analyticsAdapter;
+    TextView tvTotal;
 
     public AnalyticsFragment() {
         // Required empty public constructor
@@ -59,5 +71,21 @@ public class AnalyticsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_analytics, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        dbHelper=new DbHelper(getActivity());
+        recyclerViewAnalytics=view.findViewById(R.id.recyclerViewAnalytics);
+        tvTotal=view.findViewById(R.id.tvTotal);
+        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false);
+        recyclerViewAnalytics.setLayoutManager(layoutManager);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        tvTotal.setText(String.valueOf(dbHelper.getSum()));
     }
 }

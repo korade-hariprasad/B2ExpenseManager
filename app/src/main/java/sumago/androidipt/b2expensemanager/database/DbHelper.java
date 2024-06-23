@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
+import sumago.androidipt.b2expensemanager.models.Category;
 import sumago.androidipt.b2expensemanager.models.Expense;
 
 public class DbHelper extends SQLiteOpenHelper {
@@ -53,6 +54,19 @@ public class DbHelper extends SQLiteOpenHelper {
             + COLUMN_EXPENSE_NOTE + " TEXT NOT NULL, "
             + COLUMN_IS_DELETED + " INTEGER DEFAULT 0"
             + ");";
+
+    String grandQuery="SELECT" +
+            " categoryName," +
+            " TOTAL(amount) as totalAmount," +
+            " MAX(amount) as maxAmount," +
+            " MIN(amount) as minAmount," +
+            " AVG(amount) as averageAmount" +
+            " FROM" +
+            " expense" +
+            " GROUP BY" +
+            " categoryId DESC;";
+
+
     public DbHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -60,8 +74,8 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         try {
             db.execSQL(CREATE_TABLE_EXPENSE);
-            db.execSQL("CREATE TABLE category(id INTEGER PRIMARY KEY AUTOINCREMENT, category_name" +
-                    "TEXT NOT NULL, is_deleted INTEGER DEFAULT 0);");
+            db.execSQL(CREATE_TABLE_CATEGORY);
+            db.execSQL("INSERT INTO category (categoryName) VALUES ('General')");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -89,7 +103,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public ArrayList<Expense> getAllExpenses(){
         ArrayList<Expense> list=new ArrayList<>();
         SQLiteDatabase database=getReadableDatabase();
-        Cursor cursor=database.rawQuery("SELECT * FROM "+TABLE_EXPENSE,null);
+        Cursor cursor=database.rawQuery("SELECT * FROM "+TABLE_EXPENSE+" ORDER BY "+COLUMN_EXPENSE_ID+" DESC",null);
         if(cursor.moveToFirst())
         {
             do{
@@ -101,7 +115,6 @@ public class DbHelper extends SQLiteOpenHelper {
                 expense.setCategoryId(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_EXPENSE_CATEGORY_ID)));
                 expense.setNote(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_EXPENSE_NOTE)));
                 list.add(expense);
-
             }while (cursor.moveToNext());
 
         }
@@ -128,7 +141,6 @@ public class DbHelper extends SQLiteOpenHelper {
         {
             if(cursor.moveToFirst())
             {
-
                 expense.setName(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_EXPENSE_NAME)));
                 expense.setId(cursor.getInt(0));
                 expense.setAmount(cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_EXPENSE_AMOUNT)));
@@ -162,5 +174,33 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(COLUMN_EXPENSE_DATE,expense.getDate());
         int count=database.update(TABLE_EXPENSE,values,COLUMN_EXPENSE_ID+"=?",selectionArgs);
         return count;
+    }
+
+    public void clearAll()
+    {
+        SQLiteDatabase database=getWritableDatabase();
+        database.execSQL("DELETE FROM "+TABLE_EXPENSE);
+        database.execSQL("DELETE FROM " + TABLE_CATEGORY + " WHERE id > 1");
+    }
+
+
+    public long insertCategory(String category){
+
+
+        return 0;
+    }
+
+    public ArrayList<Category> getAllCategories(){
+        ArrayList<Category> list=new ArrayList<>();
+
+
+        return list;
+    }
+
+    public int deleteCategoryById(int id)
+    {
+
+
+        return 0;
     }
 }

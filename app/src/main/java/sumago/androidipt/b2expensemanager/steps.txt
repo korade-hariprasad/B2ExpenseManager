@@ -1,0 +1,14 @@
+DatePicker
+ChipGroup
+
+1. Insert Category On Create
+2. Get Category List
+3. Show Category List On Options Fragment
+4. Add Delete Icon to Chip Of Category
+5. Delete Category on chip Icon Click
+6. Add Category List In Add Expense Fragment
+7. Select Dynamic Date
+8. Add insert Selected Category Name Form Category to database
+9. get ExpenseReport from database
+10. Show Expense Report Category on RecyclerView
+11.

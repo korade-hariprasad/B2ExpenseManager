@@ -5,7 +5,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.ArrayList;
+
+import sumago.androidipt.b2expensemanager.database.DbHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -13,6 +24,12 @@ import androidx.fragment.app.Fragment;
  * create an instance of this fragment.
  */
 public class OptionsFragment extends Fragment {
+
+    TextInputLayout texLayoutExpenseName;
+    TextInputEditText etName;
+    MaterialButton btnAdd;
+    ChipGroup chipGroup;
+    DbHelper dbHelper;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,5 +76,33 @@ public class OptionsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_options, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        btnAdd = view.findViewById(R.id.btnAdd);
+        chipGroup=view.findViewById(R.id.chipGroup);
+        dbHelper=new DbHelper(getActivity());
+        texLayoutExpenseName = view.findViewById(R.id.texLayoutExpenseName);
+        etName=view.findViewById(R.id.etCategoryName);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+
+    private boolean validateFields() {
+        ArrayList<Boolean> errors = new ArrayList<>();
+        if (!etName.getText().toString().isEmpty() && etName.getText().toString().length() > 1) {
+            errors.add(true);
+            texLayoutExpenseName.setError(null);
+        } else {
+            texLayoutExpenseName.setError("Please enter a valid category name");
+            errors.add(false);
+        }
+        return !errors.contains(false);
     }
 }
