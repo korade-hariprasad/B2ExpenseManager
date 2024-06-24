@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import sumago.androidipt.b2expensemanager.models.Category;
 import sumago.androidipt.b2expensemanager.models.Expense;
+import sumago.androidipt.b2expensemanager.models.ExpenseReport;
 
 public class DbHelper extends SQLiteOpenHelper {
 
@@ -64,7 +65,7 @@ public class DbHelper extends SQLiteOpenHelper {
             " FROM" +
             " expense" +
             " GROUP BY" +
-            " categoryId DESC;";
+            " categoryId;";
 
 
     public DbHelper(@Nullable Context context) {
@@ -185,22 +186,46 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
     public long insertCategory(String category){
-
-
-        return 0;
+        SQLiteDatabase database=getWritableDatabase();
+        ContentValues values=new ContentValues();
+        values.put(COLUMN_CATEGORY_NAME,category);
+        long id=database.insert(TABLE_CATEGORY,null,values);
+        return id;
     }
 
     public ArrayList<Category> getAllCategories(){
         ArrayList<Category> list=new ArrayList<>();
-
+        SQLiteDatabase database=getReadableDatabase();
+        Cursor cursor=database.rawQuery("SELECT * FROM "+TABLE_CATEGORY,null);
+        if(cursor.moveToFirst())
+        {
+            do {
+                Category  category=new Category();
+                category.setName(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CATEGORY_NAME)));
+                category.setId(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_CATEGORY_ID)));
+                list.add(category);
+            }while (cursor.moveToNext());
+        }
 
         return list;
     }
 
-    public int deleteCategoryById(int id)
-    {
-
-
-        return 0;
+    public ArrayList<ExpenseReport> getExpenseReport(){
+        ArrayList<ExpenseReport> list=new ArrayList<>();
+        SQLiteDatabase database=getReadableDatabase();
+        Cursor cursor=database.rawQuery(grandQuery,null);
+        if(cursor.moveToFirst())
+        {
+            do{
+                ExpenseReport expense=new ExpenseReport();
+                expense.setAverageAmount(cursor.getDouble(cursor.getColumnIndexOrThrow("averageAmount")));
+                expense.setMinAmount(cursor.getDouble(cursor.getColumnIndexOrThrow("minAmount")));
+                expense.setMaxAmount(cursor.getDouble(cursor.getColumnIndexOrThrow("maxAmount")));
+                expense.setTotalAmount(cursor.getDouble(cursor.getColumnIndexOrThrow("totalAmount")));
+                expense.setCategoryName(cursor.getString(cursor.getColumnIndexOrThrow("categoryName")));
+                list.add(expense);
+            }while (cursor.moveToNext());
+        }
+        return list;
     }
 }

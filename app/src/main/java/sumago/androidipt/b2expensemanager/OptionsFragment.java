@@ -1,9 +1,11 @@
 package sumago.androidipt.b2expensemanager;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -90,6 +92,17 @@ public class OptionsFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                if(validateFields())
+                {
+
+                    long id=dbHelper.insertCategory(etName.getText().toString().trim());
+                    if(id>0)
+                    {
+                        Toast.makeText(getActivity(), "Category Added", Toast.LENGTH_SHORT).show();
+                        etName.setText("");
+                    }
+                    Log.d("mytag",""+id);
+                }
             }
         });
     }

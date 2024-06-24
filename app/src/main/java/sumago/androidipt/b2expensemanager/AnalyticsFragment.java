@@ -87,5 +87,7 @@ public class AnalyticsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         tvTotal.setText(String.valueOf(dbHelper.getSum()));
+        analyticsAdapter=new AnalyticsAdapter(dbHelper.getExpenseReport());
+        recyclerViewAnalytics.setAdapter(analyticsAdapter);
     }
 }

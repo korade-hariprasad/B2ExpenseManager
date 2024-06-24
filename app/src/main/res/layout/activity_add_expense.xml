@@ -60,25 +60,20 @@
                     android:digits="0123456789."
                     android:maxLength="10" />
             </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txDateLayout"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:hint="Date">
-                <com.google.android.material.textfield.TextInputEditText
+
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="16dp"
                     android:id="@+id/etDate"
+                    android:drawablePadding="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/calendar_month_24px"
                     android:inputType="none"
-                    android:enabled="false"
+                    android:textSize="20sp"
                     android:text="2024-06-20"
                     android:maxLength="10" />
-            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
